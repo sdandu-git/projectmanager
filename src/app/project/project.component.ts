@@ -23,17 +23,17 @@ export class ProjectComponent implements OnInit {
   projectModel=new Project();
   isDisabled=true;
   isErrormsg=false;
-  theCheckbox=true;
+  theCheckbox=false;
   dateset()
   {
     console.log('coming to date');
     if(this.theCheckbox)
     {
       this.isDisabled=false;
-     // this.projectModel.startDate=this.dateservice.transform(new Date(),'yyyy-MM-dd');
+     this.projectModel.startDate=this.dateservice.transform(new Date(),'yyyy-MM-dd');
       let endDate= new Date();
       endDate.setDate(endDate.getDate()+1);
-     // this.projectModel.endDate=this.dateservice.transform(endDate,'yyyy-MM-dd');
+     this.projectModel.endDate=this.dateservice.transform(endDate,'yyyy-MM-dd');
 
     }
     else
@@ -82,6 +82,7 @@ addProject()
      this.projectModel={};
   this.isDisabled=true;
   this.theCheckbox=false;
+  this.isErrormsg=false;
 }
 
 reset()

@@ -153,7 +153,7 @@ export class Apiservice {
         console.log(data);
      
         const taskModel = new Task();
-        taskModel.parentTaskName=item.parentTaskDescription;
+        taskModel.parentTaskDescription=item.parentTaskDescription;
      
        this.taskList.push(taskModel);
       });

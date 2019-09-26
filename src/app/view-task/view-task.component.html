@@ -2,7 +2,7 @@
     <form class="form-group" name="taskform" #taskForm="ngForm" (ngSubmit)="taskForm.form.valid && addTask()" >
         <div class="row">
         <label for="projectName"> Project Name</label>
-        <input type="text" class="form-control col-sm-2" #name="ngModel" [(ngModel)]="taskModel.projectDescription" name="projectName" required/>
+        <input type="text" class="form-control col-sm-2" #name="ngModel" disabled="true" [(ngModel)]="taskModel.projectDescription" name="projectName" required/>
         <button type="submit"class="col-sm-2 btn btn-primary" (click)="openProject()">Search</button>&nbsp;
         <label class="col-sm-2"> Sort </label>
                 <button type="button"class=" btn btn-primary" (click)="sortByStartDate()">Start Date</button> &nbsp;
@@ -28,14 +28,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let task of taskList | filter:taskModel.projectName">
+                    <tr *ngFor="let task of taskList | filter:taskModel.projectDescription">
                         <td>{{task.taskDescription}} </td>
-                        <td>{{task.parentName}} </td>
+                        <td>{{task.parentTaskDescription}} </td>
                         <td>{{task.priority}}</td>
                         <td>{{task.startDate}}</td>
                         <td>{{task.endDate}}</td>
                         <td><button type="submit" class="btn btn-primary" (click)="editTask(task)" >Edit </button></td>
-                        <td><button type="submit" class="btn btn-primary" (click)="deleteTask(task)" >Delete </button></td>
+                        <td><button type="submit" class="btn btn-primary" (click)="deleteTask(task)" >End Task </button></td>
                     </tr>
         
                 </tbody>
