@@ -79,7 +79,7 @@ addProject()
      this.projects.push(this.projectModel);
     }
      this.buttonValue='Add';
-     this.projectModel={};
+     this.projectModel=new Project();
   this.isDisabled=true;
   this.theCheckbox=false;
   this.isErrormsg=false;

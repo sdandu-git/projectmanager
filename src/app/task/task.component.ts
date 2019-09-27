@@ -17,14 +17,17 @@ export class TaskComponent implements OnInit {
   constructor(private modalService:NgbModal,private dateservice:DatePipe,private apiService:Apiservice) { }
 
   ngOnInit() {
-   this.taskModel= this.apiService.getTaskData();
+   const taskModel= this.apiService.getTaskData();
+   this.taskModel=taskModel;
    if(this.taskModel.taskId !=null)
-   this.buttonValue='Edit';
+   {
+     this.buttonValue='Edit';
+   }
   }
 
   
-  
   buttonValue = 'Add';
+  
   taskModel=new Task();
   isDisabled=false;
   isErrormsg=false;

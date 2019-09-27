@@ -131,7 +131,7 @@ export class Apiservice {
   {
     let taskList:Task[]=[];
     console.log('coming get usrlist');
-    this.httpClient.get<Task[]>(this.taskURL).subscribe(data=>{
+    this.httpClient.get<Task[]>(this.taskURL).subscribe((data:any)=>{
       data.forEach(item=>{
         console.log(data);
      
@@ -141,7 +141,25 @@ export class Apiservice {
         taskModel.endDate=item.endDate;
         taskModel.priority=item.priority;
         if(item.parentTaskDetails !=null)
+        {
         taskModel.parentTaskDescription=item.parentTaskDetails.parentTaskDescription;
+        taskModel.parentTaskId=item.parentTaskDetails.parentId;
+        }
+        if(item.userDetails !=null)
+        {
+        taskModel.userName=item.userDetails.firstName;
+        taskModel.userId=item.userDetails.userId;
+        }
+        if(item.projectDetails !=null)
+        {
+        taskModel.projectDescription=item.projectDetails.projectDescription;
+        taskModel.projectId=item.projectDetails.projectId;
+        }
+        if(item.taskStatus==='ACTIVE')
+        {
+        taskModel.completed=false;
+        }
+        taskModel.taskId=item.taskId;
         console.log('coming specific object',taskModel);
        taskList.push(taskModel);
       });
@@ -214,7 +232,9 @@ export class Apiservice {
    task.userDetails=user;
    task.projectDetails=project;
    const parentTask=new Task();
+   parentTask.parentId=task.parentTaskId;
    task.parentTaskDetails=parentTask;
+   console.log('task',task);
    this.httpClient.post(this.taskURL,task,options).subscribe((data:any)=>{
      taskId=data.taskId;
    console.log('post data',data);
@@ -228,10 +248,11 @@ export class Apiservice {
  return taskId;
   }
 
-  task : Task;
+  task : Task = new Task();
 
   setTaskData(task)
   {
+    console.log(task);
     this.task=task;
   }
   getTaskData()

@@ -28,7 +28,14 @@ export class UserComponent implements OnInit {
    
     const userId=this.apiService.addUser(this.userModel);
     this.userModel.userId=userId;
-    this.userList=this.userList.filter(obj=> obj.userId !== this.userModel.userId);
+    
+    if(this.buttonValue==='Edit')
+    {
+      this.userList=this.userList.filter(obj=> obj.userId !== this.userModel.userId);
+ //this.userList.splice(this.userModel.userId);
+ console.log('edit',this.userList);
+    }
+   
      this.userList.push(this.userModel);
      this.buttonValue='Add';
      this.userModel=new User();
@@ -51,7 +58,7 @@ export class UserComponent implements OnInit {
   }
   edit(user)
   {
-    console.log('coming to edit');
+    console.log('coming to edit',user.userId);
     this.buttonValue='Edit'
     this.userModel=user;
   }
