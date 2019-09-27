@@ -31,7 +31,7 @@ export class UserComponent implements OnInit {
     this.userList=this.userList.filter(obj=> obj.userId !== this.userModel.userId);
      this.userList.push(this.userModel);
      this.buttonValue='Add';
-     this.userModel={};
+     this.userModel=new User();
   }
 
   reset()

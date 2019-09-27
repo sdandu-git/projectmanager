@@ -17,11 +17,14 @@ export class TaskComponent implements OnInit {
   constructor(private modalService:NgbModal,private dateservice:DatePipe,private apiService:Apiservice) { }
 
   ngOnInit() {
+   this.taskModel= this.apiService.getTaskData();
+   if(this.taskModel.taskId !=null)
+   this.buttonValue='Edit';
   }
 
   
   
-  buttonValue='Add';
+  buttonValue = 'Add';
   taskModel=new Task();
   isDisabled=false;
   isErrormsg=false;
@@ -72,11 +75,12 @@ openTask()
 {
   console.log('comgint to user');
    const modalRef=this.modalService.open(TaskModal);
-  modalRef.componentInstance.name='Wrold';
+ 
   modalRef.result.then((result) => {
     if(result)
     {
       this.taskModel.parentTaskDescription=result.parentTaskDescription;
+      this.taskModel.parentTaskId=result.parentTaskId;
     }
   }); 
 }
@@ -103,7 +107,7 @@ addTask()
     this.apiService.addTask(this.taskModel);
     
      this.buttonValue='Add';
-     this.taskModel={};
+     this.taskModel=new Task();
   this.isDisabled=true;
   this.theCheckbox=false;
 }

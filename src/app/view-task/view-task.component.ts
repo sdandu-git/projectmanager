@@ -81,6 +81,7 @@ deleteTask(task)
 }
 editTask(task)
 {
+  this.apiService.setTaskData(task);
 this.router.navigate(['/AddTask'],{state:task});
 }
 }

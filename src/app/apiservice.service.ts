@@ -17,13 +17,14 @@ export class Apiservice {
     private taskURL=environment.taskURL;
     private parenttaskURL=environment.parenttaskURL;
    
-   userList:User[]=[];
-   taskList:Task[]=[];
-   projectList:Project[]=[];
+   
+  
+  
 
   getUserList()
   {
     console.log('coming get usrlist');
+    let userList:User[]=[];
     this.httpClient.get<User[]>(this.userURL).subscribe(data=>{
       data.forEach(item=>{
         console.log(data);
@@ -34,11 +35,11 @@ export class Apiservice {
         userModel.employeeId=item.employeeId;
         userModel.userId=item.userId;
         console.log('coming specific object',userModel);
-       this.userList.push(userModel);
+       userList.push(userModel);
       });
    });
 
-    return this.userList;
+    return userList;
   }
 
   addUser(user)
@@ -56,7 +57,7 @@ export class Apiservice {
    {
      headers:header
    };
-   this.httpClient.post(this.userURL,user,options).subscribe(data=>{
+   this.httpClient.post(this.userURL,user,options).subscribe((data:any)=>{
      userId=data.userId;
    console.log('post data',data);
    
@@ -69,6 +70,7 @@ export class Apiservice {
   }
   getProjectList()
   {
+    let projectList:Project[]=[];
     console.log('coming get usrlist');
     this.httpClient.get<Project[]>(this.projectURL).subscribe(data=>{
       data.forEach(item=>{
@@ -88,11 +90,11 @@ export class Apiservice {
         }
         projectModel.projectId=item.projectId;
         console.log('coming specific object',projectModel);
-       this.projectList.push(projectModel);
+       projectList.push(projectModel);
       });
    });
 
-    return this.projectList;
+    return projectList;
   }
 
   addProject(project)
@@ -113,7 +115,7 @@ export class Apiservice {
    const user = new User();
    user.userId=project.userId;
    project.userDetails=user;
-   this.httpClient.post(this.projectURL,project,options).subscribe(data=>{
+   this.httpClient.post(this.projectURL,project,options).subscribe((data:any)=>{
     projectId=data.projectId;
    console.log('post data',data);
    
@@ -127,6 +129,7 @@ export class Apiservice {
   }
   getTaskList()
   {
+    let taskList:Task[]=[];
     console.log('coming get usrlist');
     this.httpClient.get<Task[]>(this.taskURL).subscribe(data=>{
       data.forEach(item=>{
@@ -137,16 +140,19 @@ export class Apiservice {
         taskModel.startDate=item.startDate;
         taskModel.endDate=item.endDate;
         taskModel.priority=item.priority;
+        if(item.parentTaskDetails !=null)
+        taskModel.parentTaskDescription=item.parentTaskDetails.parentTaskDescription;
         console.log('coming specific object',taskModel);
-       this.taskList.push(taskModel);
+       taskList.push(taskModel);
       });
    });
 
-    return this.taskList;
+    return taskList;
   }
 
   getParentTaskList()
   {
+    let taskList:Task[]=[];
     console.log('coming get usrlist');
     this.httpClient.get<Task[]>(this.parenttaskURL).subscribe(data=>{
       data.forEach(item=>{
@@ -154,12 +160,12 @@ export class Apiservice {
      
         const taskModel = new Task();
         taskModel.parentTaskDescription=item.parentTaskDescription;
-     
-       this.taskList.push(taskModel);
+        taskModel.parentTaskId=item.parentId;
+       taskList.push(taskModel);
       });
    });
 
-    return this.taskList;
+    return taskList;
   }
 
   addTask(task)
@@ -183,10 +189,13 @@ export class Apiservice {
      let parentTask=
      {
        "parentTaskDescription":task.taskDescription,
-       "project_id":task.projectId
+       "projectDetails":
+       {
+         "projectId":task.projectId
+       }
      }
      console.log(parentTask);
-    this.httpClient.post(this.parenttaskURL,parentTask,options).subscribe(data=>{
+    this.httpClient.post(this.parenttaskURL,parentTask,options).subscribe((data:any)=>{
       taskId=data.parenttaskId;
     console.log('post data',data);
     
@@ -204,7 +213,9 @@ export class Apiservice {
    project.projectId=task.projectId;
    task.userDetails=user;
    task.projectDetails=project;
-   this.httpClient.post(this.taskURL,task,options).subscribe(data=>{
+   const parentTask=new Task();
+   task.parentTaskDetails=parentTask;
+   this.httpClient.post(this.taskURL,task,options).subscribe((data:any)=>{
      taskId=data.taskId;
    console.log('post data',data);
    
@@ -215,6 +226,17 @@ export class Apiservice {
  );
 }
  return taskId;
+  }
+
+  task : Task;
+
+  setTaskData(task)
+  {
+    this.task=task;
+  }
+  getTaskData()
+  {
+    return this.task;
   }
  
 }

@@ -1,4 +1,5 @@
 import {User} from '../user/user';
+import {Task} from '../task/task';
 export class Project
 {
     constructor()
@@ -17,4 +18,5 @@ export class Project
     userId:number;
     taskNumber:number;
     completed:boolean;
+    taskList:Task[];
 }

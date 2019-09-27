@@ -19,8 +19,10 @@ export class Task
     userName:string;
     userDetails:User;
     projectDetails:Project;
+    parentTaskDetails:Task;
     IsParentTask: boolean;
     projectId:number;
     taskId:number;
     userId:number;
+    parentId:number;
 }

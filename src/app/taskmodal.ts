@@ -16,14 +16,13 @@ import {Apiservice} from './apiservice.service';
       <table class="table table-striped">
       <thead>
       <tr>
-      <th> Task Name </th>
-      <th> Parent Task Name </th>
-      <th> Task Start Date </th>
+      <th> Parent TaskName </th>
+      
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let task of taskList | filter:searchText">
-      <td>{{task.taskId}}</td>
+      <td>{{task.parentTaskDescription}}</td>
       <td>{{task.taskName}}</td>
       <td>{{task.parentTaskName}}</td>
       <td><button type="button" class="btn btn-outline-dark" (click)="selectTask(task);activeModal.close('Close click')">Add</button></td>
@@ -44,7 +43,7 @@ export class TaskModal {
     searchText;
     taskList: Task[]=[];
     constructor(public activeModal: NgbActiveModal,private apiService:Apiservice) {
-      this.taskList=this.apiService.getTaskList();
+      this.taskList=this.apiService.getParentTaskList();
     }
   selectTask(task)
   {
