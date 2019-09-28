@@ -5,6 +5,7 @@ import { Task} from './task/task';
 import { User} from './user/user';
 import { UseExistingWebDriver } from 'protractor/built/driverProviders';
 import { environment } from '../environments/environment';
+import { combineLatest } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -84,9 +85,13 @@ export class Apiservice {
         if(item.taskList.length > 0)
         {
           projectModel.taskNumber=item.taskList.length;
+          const completetaskList=item.taskList.filter(obj=> obj.taskStatus !== 'ACTIVE');
+          projectModel.taskcompleted=completetaskList.length;
         }
+        
         else{
           projectModel.taskNumber=0;
+          projectModel.taskcompleted=0;
         }
         projectModel.projectId=item.projectId;
         console.log('coming specific object',projectModel);
@@ -127,6 +132,83 @@ export class Apiservice {
 
  return projectId;
   }
+
+
+  deleteProject(project)
+  {
+   console.log ('coming to delete');
+   
+   let header= new HttpHeaders();
+   header.set('Content-Type','application/json');
+   
+
+   let options=
+   {
+     headers:header
+   };
+   
+   this.httpClient.delete(this.projectURL+'/'+project.projectId,options).subscribe((data:any)=>{
+    
+   console.log('post data',data);
+   
+ },
+  error => {
+    console.log('error',error);
+  }
+ );
+
+ 
+  }
+
+  deleteUser(user)
+  {
+   console.log ('coming to delete');
+   
+   let header= new HttpHeaders();
+   header.set('Content-Type','application/json');
+   
+
+   let options=
+   {
+     headers:header
+   };
+   
+   this.httpClient.delete(this.userURL+'/'+user.userId,options).subscribe((data:any)=>{
+    
+   console.log('post data',data);
+   
+ },
+  error => {
+    console.log('error',error);
+  }
+ );
+}
+
+ deleteTask(task)
+  {
+   console.log ('coming to delete');
+   
+   let header= new HttpHeaders();
+   header.set('Content-Type','application/json');
+   
+
+   let options=
+   {
+     headers:header
+   };
+   
+   this.httpClient.delete(this.taskURL+'/'+task.taskId,options).subscribe((data:any)=>{
+    
+   console.log('post data',data);
+   
+ },
+  error => {
+    console.log('error',error);
+  }
+ );
+
+ 
+  }
   getTaskList()
   {
     let taskList:Task[]=[];
@@ -155,10 +237,8 @@ export class Apiservice {
         taskModel.projectDescription=item.projectDetails.projectDescription;
         taskModel.projectId=item.projectDetails.projectId;
         }
-        if(item.taskStatus==='ACTIVE')
-        {
-        taskModel.completed=false;
-        }
+        
+        taskModel.taskStatus=item.taskStatus;
         taskModel.taskId=item.taskId;
         console.log('coming specific object',taskModel);
        taskList.push(taskModel);
@@ -179,6 +259,12 @@ export class Apiservice {
         const taskModel = new Task();
         taskModel.parentTaskDescription=item.parentTaskDescription;
         taskModel.parentTaskId=item.parentId;
+        taskModel.IsParentTask=true;
+        if(item.projectDetails !=null)
+        {
+        taskModel.projectDescription=item.projectDetails.projectDescription;
+        taskModel.projectId=item.projectDetails.projectId;
+        }
        taskList.push(taskModel);
       });
    });
@@ -261,3 +347,4 @@ export class Apiservice {
   }
  
 }
+

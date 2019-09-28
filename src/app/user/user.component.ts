@@ -66,7 +66,8 @@ export class UserComponent implements OnInit {
   delete(user)
   {
     console.log('coming to delete');
-    this.userModel=user;
+    this.apiService.deleteUser(user);
+    this.userList=this.userList.filter(obj=> obj.userId !== user.userId);
   }
 
   sortByLName()

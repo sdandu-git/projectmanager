@@ -54,7 +54,7 @@ dateChange()
 
 openUser()
 {
-  console.log('comgint to user');
+  
    const modalRef=this.modalService.open(UserModal);
   modalRef.componentInstance.name='Wrold';
   modalRef.result.then((result) => {
@@ -84,7 +84,12 @@ addProject()
   this.theCheckbox=false;
   this.isErrormsg=false;
 }
-
+edit(project)
+  {
+   
+    this.buttonValue='Edit'
+    this.projectModel=project;
+  }
 reset()
 {
   
@@ -125,9 +130,14 @@ sortByEndDate()
   {
     console.log('sorting... Id');
     this.projects.sort((leftside,rightside) => {
-            if(leftside.completed < rightside.completed) return -1;
-            if(leftside.completed > rightside.completed) return 1;
+            if(leftside.taskcompleted < rightside.taskcompleted) return -1;
+            if(leftside.taskcompleted > rightside.taskcompleted) return 1;
             return 0;
     });
+  }
+  delete(project)
+  {
+    this.apiService.deleteProject(project);
+    this.projects=this.projects.filter(obj=> obj.projectId !== project.projectId);
   }
 }

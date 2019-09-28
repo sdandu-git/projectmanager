@@ -69,6 +69,7 @@ export class ViewTaskComponent implements OnInit {
     {
       this.taskModel.projectDescription=result.projectDescription;
       this.taskModel.projectId=result.projectId;
+      this.taskList=this.taskList.filter(obj=> obj.projectDescription === this.taskModel.projectDescription);
     }
   }); 
 }
@@ -76,8 +77,25 @@ export class ViewTaskComponent implements OnInit {
 deleteTask(task)
 {
   task.completed=true;
+  task.taskStatus="InActive";
+ 
+  this.apiService.addTask(task);
+  this.taskList=this.taskList.filter(obj=> obj.taskId !== task.taskId);
   this.taskList.push(task);
 
+}
+
+checkDisabled(task)
+{
+  console.log(task);
+  if(task.taskStatus === 'ACTIVE')
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
 }
 editTask(task)
 {
