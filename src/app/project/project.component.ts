@@ -86,7 +86,10 @@ edit(project)
   {
    
     this.buttonValue='Edit'
+    this.isDisabled=false;
     this.projectModel=project;
+    if(project.userDetails !=null)
+       this.projectModel.managerName=project.userDetails.firstName;
   }
 reset()
 {

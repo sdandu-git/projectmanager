@@ -100,6 +100,7 @@ return userId;
         projectModel.startDate=item.startDate;
         projectModel.endDate=item.endDate;
         projectModel.priority=item.priority;
+        projectModel.userDetails=item.userDetails;
         
         if(item.taskList.length > 0)
         {
@@ -123,7 +124,7 @@ return userId;
 
   addProject(project)
   {
-   // console.log(project);
+  // console.log('create',project);
    let projectId;
    let header= new HttpHeaders();
    header.set('Content-Type','application/json');
@@ -142,6 +143,7 @@ return userId;
    user.userId=project.userId;
    project.userDetails=user;
    this.httpClient.post(this.projectURL,project,options).subscribe((data:any)=>{
+    // console.log('responsedate',data)
     projectId=data.projectId;
    
    
@@ -255,7 +257,7 @@ return projectId;
   
     this.httpClient.get<Task[]>(this.taskURL).subscribe((data:any)=>{
       data.forEach(item=>{
-        console.log(data);
+       // console.log(data);
      
         const taskModel = new Task();
         taskModel.taskDescription=item.taskDescription;
@@ -294,7 +296,7 @@ return projectId;
  
     this.httpClient.get<Task[]>(this.parenttaskURL).subscribe(data=>{
       data.forEach(item=>{
-        console.log(data);
+      //  console.log(data);
      
         const taskModel = new Task();
         taskModel.parentTaskDescription=item.parentTaskDescription;
@@ -360,7 +362,7 @@ return projectId;
    const parentTask=new Task();
    parentTask.parentId=task.parentTaskId;
    task.parentTaskDetails=parentTask;
-   if(project.projectId ===null || project.projectId  ===undefined )
+   if(task.taskId ===null || task.taskId  ===undefined )
    {
    this.httpClient.post(this.taskURL,task,options).subscribe((data:any)=>{
      taskId=data.taskId;

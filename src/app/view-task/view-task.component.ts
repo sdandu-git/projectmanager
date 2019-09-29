@@ -18,8 +18,8 @@ export class ViewTaskComponent implements OnInit {
 
   ngOnInit() {
     this.taskList=this.apiService.getTaskList();
-    const parenttask=this.apiService.getParentTaskList();
-    this.taskList.concat(parenttask);
+   // const parenttask=this.apiService.getParentTaskList();
+    //this.taskList.concat(parenttask);
   }
   taskModel=new Task()
   taskList: Task[]=[];
@@ -89,7 +89,7 @@ deleteTask(task)
 
 checkDisabled(task)
 {
-  console.log(task);
+ // console.log(task);
   if(task.taskStatus === 'ACTIVE')
   {
     return false;

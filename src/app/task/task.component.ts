@@ -7,6 +7,7 @@ import {DatePipe} from '@angular/common';
 import {UserModal} from '../usermodal';
 import {TaskModal} from '../taskmodal';
 import {ProjectModal} from '../projectmodal';
+import {Router} from "@angular/router";
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -14,7 +15,7 @@ import {ProjectModal} from '../projectmodal';
 })
 export class TaskComponent implements OnInit {
 
-  constructor(private modalService:NgbModal,private dateservice:DatePipe,private apiService:Apiservice) { }
+  constructor(private modalService:NgbModal,private router:Router,private dateservice:DatePipe,private apiService:Apiservice) { }
 
   ngOnInit() {
    const taskModel= this.apiService.getTaskData();
@@ -107,7 +108,7 @@ addTask()
  
    
     this.apiService.addTask(this.taskModel);
-    
+    this.router.navigate(['/ViewTask'],{state:this.taskModel});
      this.buttonValue='Add';
      this.taskModel=new Task();
   this.isDisabled=true;
