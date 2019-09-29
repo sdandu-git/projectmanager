@@ -100,6 +100,7 @@ return userId;
         projectModel.startDate=item.startDate;
         projectModel.endDate=item.endDate;
         projectModel.priority=item.priority;
+        
         if(item.taskList.length > 0)
         {
           projectModel.taskNumber=item.taskList.length;
@@ -112,7 +113,7 @@ return userId;
           projectModel.taskcompleted=0;
         }
         projectModel.projectId=item.projectId;
-        console.log('coming specific object',projectModel);
+      //  console.log('coming specific object',projectModel);
        projectList.push(projectModel);
       });
    });
@@ -122,6 +123,7 @@ return userId;
 
   addProject(project)
   {
+   // console.log(project);
    let projectId;
    let header= new HttpHeaders();
    header.set('Content-Type','application/json');
@@ -152,6 +154,7 @@ return userId;
  return projectId;
 }
 else{
+  //console.log('edit');
   const user = new User();
   user.userId=project.userId;
   project.userDetails=user;
